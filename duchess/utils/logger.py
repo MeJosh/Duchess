@@ -98,3 +98,6 @@ def get_logger(name: str, log_file: Optional[str] = None) -> logging.Logger:
 
 # Main application logger
 main_logger = get_logger("duchess", log_file="duchess.log")
+
+# Convenience export
+logger = main_logger
