@@ -144,7 +144,7 @@ For MVP, we'll use **hardcoded scenarios** like:
 ```
 Setup:
 - 7 players: Alice, Bob, Charlie, Diana, Eve, Frank, Grace
-- Roles: Washerwoman(Alice), Investigator(Bob), Empath(Charlie), 
+- Roles: Washerwoman(Alice), Investigator(Bob), Empath(Charlie),
          Townsfolk(Diana), Townsfolk(Eve), Scarlet Woman(Frank), Imp(Grace)
 
 Private Information Given:
