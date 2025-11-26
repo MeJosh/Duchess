@@ -324,8 +324,8 @@ class TestReasoningAgent:
         proven = agent.get_proven_facts()
         
         # At minimum, agent knows their own role
-        assert 0 in proven
-        assert proven[0] == Role.WASHERWOMAN
+        assert "Alice" in proven
+        assert proven["Alice"] == Role.WASHERWOMAN
     
     def test_get_role_probabilities(self, players_5):
         """Test calculating role probabilities."""
@@ -434,7 +434,7 @@ class TestReasoningAgent:
         assert "Alice" in report
         assert "Washerwoman" in report
     
-    def test_generate_report_save(self, tmp_path):
+    def test_generate_report_save(self, tmp_path, players_int):
         """Test saving report to file."""
         true_world = World({
             0: Role.WASHERWOMAN,
@@ -447,7 +447,7 @@ class TestReasoningAgent:
         agent = ReasoningAgent(
             name=0,
             role=Role.WASHERWOMAN,
-            players=players_5,
+            players=players_int,
             true_world=true_world,
         )
         
@@ -579,7 +579,7 @@ class TestAgentIntegration:
         # Charlie's neighbors are Bob (good) and Diana (evil) → count = 1
         agent.receive_information(
             info_type=InformationType.EMPATH,
-            data={"neighbors": ["Bob", "Diana"], "evil_count": 1},
+            data={"empath_player": "Charlie", "evil_count": 1},
         )
         
         analysis = agent.analyze()
