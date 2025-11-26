@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "duchess"
+version = "0.1.0"
+description = "Blood on the Clocktower analysis engine using symbolic reasoning and probabilistic inference"
+authors = ["Josh"]
+readme = "README.md"
+packages = [{include = "duchess"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4"
+black = "^23.12"
+mypy = "^1.7"
+pytest-cov = "^4.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers --cov=duchess --cov-report=term-missing"
+log_cli = true
+log_cli_level = "INFO"
+log_file = "logs/test_run.log"
+log_file_level = "DEBUG"
