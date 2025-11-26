@@ -69,7 +69,7 @@ The CLI runner allows you to test the agent's reasoning capabilities:
 $ poetry run python -m duchess.simulation.run --list
 Available scenarios:
   1. washerwoman - Simple Washerwoman deduction
-  2. investigator - Complex Investigator reasoning  
+  2. investigator - Complex Investigator reasoning
   3. empath - Empath neighbor detection
 
 # Run the washerwoman scenario

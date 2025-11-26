@@ -31,11 +31,12 @@ class WorldGenerator:
         Initialize the world generator.
         
         Args:
-            players: Either number of players (int) or list of player names/indices
+            players: Either number of players (int) or list of player names.
+                    If int, generates default names "Player 1", "Player 2", etc.
         """
         if isinstance(players, int):
-            # Generate player indices 0, 1, 2, ...
-            self.players = list(range(players))
+            # Generate default player names: "Player 1", "Player 2", ...
+            self.players = [f"Player {i}" for i in range(1, players + 1)]
         else:
             self.players = players
         self.num_players = len(self.players)

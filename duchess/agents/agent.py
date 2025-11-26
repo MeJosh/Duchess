@@ -40,28 +40,43 @@ class ReasoningAgent:
         self,
         name: Union[str, int],
         role: Role,
-        players: List[Union[str, int]],
+        players: Union[int, List[Union[str, int]]],
         true_world: Optional[World] = None,
     ):
         """Initialize a reasoning agent.
         
         Args:
-            name: Agent's identifier (player name or number)
+            name: Agent's identifier (player name or seat number, 1-indexed)
             role: Agent's true role
-            players: List of all players in the game
+            players: Either number of players (int) or list of player identifiers.
+                    If int, generates default names "Player 1", "Player 2", etc.
             true_world: Ground truth for report generation (optional)
         """
-        self.name = name
+        # Normalize player list
+        if isinstance(players, int):
+            num_players = players
+            player_list = [f"Player {i}" for i in range(1, num_players + 1)]
+        else:
+            player_list = [str(p) if isinstance(p, int) else p for p in players]
+            num_players = len(player_list)
+        
+        # Normalize agent name
+        if isinstance(name, int):
+            agent_name = f"Player {name}"
+        else:
+            agent_name = name
+        
+        self.name = agent_name
         self.role = role
-        self.players = players
-        self.num_players = len(players)
+        self.players = player_list
+        self.num_players = num_players
         self.true_world = true_world
         
         # Initialize memory
-        self.memory = AgentMemory(agent_name=name, agent_role=role)
+        self.memory = AgentMemory(agent_name=agent_name, agent_role=role)
         
         # Initialize belief state to all possible worlds
-        self._initial_worlds = generate_worlds(players=players)
+        self._initial_worlds = generate_worlds(players=player_list)
         self.memory.update_belief_state(self._initial_worlds)
         
         # Report generator for analysis visualization (set up before rebuild)
@@ -69,7 +84,7 @@ class ReasoningAgent:
         if true_world is not None:
             self.reporter = ReportGenerator(
                 true_world=true_world,
-                agent_player=name,
+                agent_player=agent_name,
                 agent_role=role,
             )
         
@@ -77,7 +92,7 @@ class ReasoningAgent:
         self.rebuild_belief_state()
         
         logger.info(
-            f"Initialized agent {name} ({role.value}) "
+            f"Initialized agent {agent_name} ({role.value}) "
             f"with {len(self._initial_worlds)} initial worlds"
         )
     
